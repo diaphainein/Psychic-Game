@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Psychic Game!</title>
+</head>
+<body>
+<h1>The Psychic Game!</h1>
+<br>
+<h3>I bet you can't guess what I'm thinking...</h3>
+<br>
+<br>
+<br>
+<p>
+	To begin, press any letter on the keyboard. You get 9 tries to guess which letter I'm thinking of!
+</p>
+<p>
+	Good luck!
+</p>
+
+<script>
+function getRandomBetween(min, max) {
+  return Math.floor(Math.random() * (max - min) + min);
+};
+// This array contains all possible letters that the user and computer can choose from
+var letters = ["A"
+, "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
+];
+var pressedKeys = [];
+var howManyTriesLeft = 0;
+var computerPick = "A";
+function setupGame(){
+	 pressedKeys = [];
+	 howManyTriesLeft = 9;
+	 var blah = getRandomBetween(0,letters.length-1);
+	 computerPick = letters[blah]; 
+}
+	
+
+
+//  Compare guessed letter (userGuess) to computer's letter (computerPick)
+function validatePressedChar(userGuess){
+	pressedKeys.push(userGuess);// store the keys that have been pressed?
+	
+		
+// 4) Validate whether win or lose
+
+	// 5) If win (userGuess == computerPick), display win and reset game
+	if(userGuess == computerPick){
+		document.write("YAY! You knew what I was thinking! I'll reset the game so we can play again!");
+		console.log("User guessed correctly.")
+		setupGame();
+	}
+	// 6) If lose (userGuess !== computerPick), take away from "Guesses Remaining" and continue
+	else{
+		howManyTriesLeft--;
+		document.write(userGuess + " was incorrect, try again! " + howManyTriesLeft + " tries left!");
+		console.log("User guessed incorrectly.")
+	}
+	// 7) If user runs out of guesses, display lose and reset game
+	
+	if(howManyTriesLeft <=0){
+		document.write("Failed! the pick was " + computerPick+ ", Resetting Game");
+		console.log("User lost game.")
+		setupGame();
+		
+	}
+	else {
+		var keysPressedString = "These were Pressed ";
+		for(i = 0; i < pressedKeys.length; i++){
+			 keysPressedString = keysPressedString + " " + pressedKeys[i] + ",";
+		}
+		console.log(keysPressedString);
+	}
+	
+};
+
+
+// 2) Wait for user to press a key
+	// Create event listener for key pressing using .onkeyup and .toLowerCase
+	document.onkeyup = function(event) { 		
+		validatePressedChar(String.fromCharCode(event.keyCode).toUpperCase());		
+	};
+
+setupGame();
+</script> 
+
+</body>
+</html>
